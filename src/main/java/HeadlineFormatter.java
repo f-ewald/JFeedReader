@@ -40,10 +40,11 @@ public class HeadlineFormatter {
         String preparedString;
         String result = "";
         // Kill all the special characters, like .,;:!?
-        preparedString = inputString.replaceAll("[^a-zA-Z0-9 ]+", " ");
+        // (?i) makes the regex case insensitive
+        preparedString = inputString.replaceAll("(?i)[^a-z0-9 ]+", " ");
 
         // Split by whitespace
-        String[] inputArray = inputString.split(" ");
+        String[] inputArray = preparedString.split(" ");
 
         // Loop over the String and add it to the output if it does not match any of the stopWords.
         for (String str : inputArray) {
@@ -53,6 +54,6 @@ public class HeadlineFormatter {
             }
         }
 
-        return preparedString;
+        return result;
     }
 }
