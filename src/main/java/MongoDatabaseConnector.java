@@ -8,9 +8,9 @@ import org.bson.codecs.configuration.CodecRegistry;
 import java.util.logging.Logger;
 
 /**
- * Created by fe on 13.05.16.
+ * Database connector for MongoDB
  */
-public class DatabaseConnector {
+public class MongoDatabaseConnector implements IDatabaseConnector {
 
     private String host;
     private int port;
@@ -37,7 +37,7 @@ public class DatabaseConnector {
      * @param password The password (plaintext) to use.
      * @param database The database to connect to.
      */
-    public DatabaseConnector(String host, int port, String username, String password, String database) {
+    public MongoDatabaseConnector(String host, int port, String username, String password, String database) {
         this.host = host;
         this.port = port;
         this.username = username;
@@ -56,7 +56,7 @@ public class DatabaseConnector {
             db = client.getDatabase(database);
         }
         catch (MongoSocketOpenException exception) {
-            Logger logger = Logger.getLogger("DatabaseConnector");
+            Logger logger = Logger.getLogger("MongoDatabaseConnector");
             logger.severe("Cannot open connection to database");
         }
     }
@@ -70,13 +70,8 @@ public class DatabaseConnector {
         }
     }
 
-    /**
-     * Inserts an entry into a specified table with the given database
-     * @param table The table to insert the data.
-     * @param document The document containing the data to insert.
-     */
-    public void insert(String table, Document document) {
-        MongoCollection<Document> collection = db.getCollection(table);
-        collection.insertOne(document);
+    public void addArticle(Article article) {
+        MongoCollection<Document> collection = db.getCollection("article");
+        collection.insertOne(article.getDocument());
     }
 }
