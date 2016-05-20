@@ -50,7 +50,7 @@ public class HeadlineFormatter {
         for (String str : inputArray) {
             String tmp = str.toLowerCase().trim();
             if (stopWords.indexOf(tmp) == -1) {
-                result = String.format("%1 %2", result, tmp);
+                result = String.format("%1s %2s", result, tmp).trim();
             }
         }
 
