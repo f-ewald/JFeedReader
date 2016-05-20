@@ -18,6 +18,11 @@ public class Article {
     public String author;
     public String content;
 
+    public Article(String headline, LocalDateTime publishedDateTime) {
+        this.headline = headline;
+        this.publishedDateTime = publishedDateTime;
+    }
+
     /**
      * Checks, if a article equals another one based on headline and published time.
      * @param a The other article
