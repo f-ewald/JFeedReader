@@ -36,15 +36,6 @@ public class Article {
     }
 
     /**
-     * Gets the current article as a JSON object.
-     * @return article as json representation
-     */
-    public String getJson() {
-        Gson gson = new Gson();
-        return gson.toJson(this);
-    }
-
-    /**
      * Returns the article as a Document
      * @return the current article as a org.bson.Document
      */
