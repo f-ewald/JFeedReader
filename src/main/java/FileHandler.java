@@ -5,7 +5,6 @@ import java.io.IOException;
 
 /**
  * Class to handle file access
- * Created by fe on 06.05.16.
  */
 public class FileHandler {
     public String filename;
@@ -48,6 +47,11 @@ public class FileHandler {
         return file.exists() && !file.isDirectory();
     }
 
+    /**
+     * Creates a new file with the given filename.
+     * @param filename the filename
+     * @throws IOException
+     */
     private void create(String filename) throws IOException {
         File file = new File(filename);
         file.createNewFile();

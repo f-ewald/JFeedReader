@@ -44,10 +44,10 @@ public class FeedReader implements Runnable {
             }
 
             // Save the fetched articles to a mongodb database.
-            DatabaseConnector database = new DatabaseConnector("127.0.0.1", 27017, null, null, "news");
+            IDatabaseConnector database = new MongoDatabaseConnector("127.0.0.1", 27017, null, null, "news");
             database.open();
             for (Article article : this.feed.articles) {
-                database.insert("table", article.getDocument());
+                database.addArticle(article);
             }
             database.close();
         }

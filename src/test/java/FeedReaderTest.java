@@ -5,7 +5,10 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         ArticleTest.class,
-        HeadLineFormatterTest.class
+        HeadLineFormatterTest.class,
+        MongoDatabaseTest.class,
+        PsqlDatabaseTest.class,
+        ConfigurationManagerTest.class
 })
 
 /**
