@@ -10,8 +10,40 @@ import java.util.logging.Logger;
  * Class to handle connections to PostgreSQL database servers.
  */
 public class PsqlDatabaseConnector implements IDatabaseConnector {
-
+    /**
+     * Connection handler.
+     */
     private Connection connection;
+
+    /**
+     * Database server host.
+     */
+    private String host;
+
+    /**
+     * Database server port.
+     */
+    private int port;
+
+    /**
+     * Database.
+     */
+    private String database;
+
+    /**
+     * Username for database server.
+     */
+    private String user;
+
+    /**
+     * Password for database server.
+     */
+    private String password;
+
+    /**
+     * A logger to log events to the console.
+     */
+    private Logger logger;
 
     /**
      * Constructor
@@ -22,7 +54,12 @@ public class PsqlDatabaseConnector implements IDatabaseConnector {
      * @param password Password to login.
      */
     public PsqlDatabaseConnector(String host, int port, String database, String user, String password) {
-
+        this.host = host;
+        this.port = port;
+        this.database = database;
+        this.user = user;
+        this.password = password;
+        this.logger = Logger.getLogger("psqldatabase");
     }
 
     /**
@@ -31,10 +68,11 @@ public class PsqlDatabaseConnector implements IDatabaseConnector {
      */
     public void open() {
         try {
-            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/testdb", "postgres", "123");
+            String connectionString = String.format("jdbc:postgresql://%1s:%2s/%3s", host, port, database);
+            connection = DriverManager.getConnection(connectionString, user, password);
+            logger.info("Connected to database server.");
         }
         catch (SQLException exception) {
-            Logger logger = Logger.getLogger("psqldatabase");
             logger.severe("Failed to open connection to database.");
         }
     }
@@ -46,9 +84,9 @@ public class PsqlDatabaseConnector implements IDatabaseConnector {
         if (connection != null) {
             try {
                 connection.close();
+                logger.info("Connection to database server closed.");
             }
             catch (SQLException exception) {
-                Logger logger = Logger.getLogger("psqldatabase");
                 logger.severe("Failed to close connection to database.");
             }
         }
@@ -65,10 +103,12 @@ public class PsqlDatabaseConnector implements IDatabaseConnector {
 
         if (connection != null) {
             try {
-                String sql = String.format("INSERT INTO articles(headline, author, published_datetime) VALUES(%s1, %2s, %3s)", article.headline, article.author, formattedPublishedDateTime);
+                String sql = String.format("INSERT INTO article(headline, author, published_datetime) VALUES(%s1, %2s, %3s)", article.headline, article.author, formattedPublishedDateTime);
                 PreparedStatement stmt = connection.prepareStatement(sql);
                 stmt.execute();
+                logger.info(String.format("Article %1s added to database", article.headline));
             } catch (SQLException e) {
+                logger.severe(String.format("Failed to add article %1s", article.headline));
                 e.printStackTrace();
             }
         }
