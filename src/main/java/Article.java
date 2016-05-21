@@ -2,6 +2,7 @@ import com.google.gson.Gson;
 import org.bson.Document;
 import java.net.URL;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 
 /**
@@ -40,10 +41,13 @@ public class Article {
      * @return the current article as a org.bson.Document
      */
     public Document getDocument() {
+        // Use a DateTimeFormatter to convert the LocalDateTime objects to a mongo readable format.
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+
         Document document = new Document();
         document.append("headline", headline);
-        document.append("publishedDateTime", publishedDateTime);
-        document.append("updatedDateTime", updatedDateTime);
+        document.append("publishedDateTime", publishedDateTime.format(dateTimeFormatter));
+        document.append("updatedDateTime", updatedDateTime.format(dateTimeFormatter));
         document.append("url", url);
         document.append("author", author);
         document.append("content", content);
