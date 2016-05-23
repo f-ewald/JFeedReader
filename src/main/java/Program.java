@@ -17,12 +17,11 @@ public class Program {
 
     // TODO:
     /**
-     * Implement class for Psql connector
      * Write ConfigurationManager
      * Check Database connector + unit tests
-     * Get Stop Word List and save as resource
      * Implement run loop
      * Organize deploy
+     * Improve class for Psql connector
      */
 
     /**
