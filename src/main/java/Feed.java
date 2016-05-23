@@ -38,22 +38,26 @@ public class Feed {
      */
     public List<String> stopWords;
 
-    /**
-     * Constructor of a feed.
-     * @param name The name of the feed for better readability.
-     * @param url The url of the atom / rss feed.
-     */
-    public Feed(String name, URL url, List<String> stopWords) {
+    public Feed(String name, URL url) {
         this.name = name;
         this.url = url;
-        this.stopWords = stopWords;
 
         articles = new LinkedList<Article>();
 
         Logger logger = Logger.getLogger("Feed");
         String message = String.format("Created feed: %s", this.name);
         logger.info(message);
+    }
 
+    /**
+     * Constructor of a feed.
+     * @param name The name of the feed for better readability.
+     * @param url The url of the atom / rss feed.
+     * @param stopWords stop word list
+     */
+    public Feed(String name, URL url, List<String> stopWords) {
+        this(name, url);
+        this.stopWords = stopWords;
     }
 
 }
