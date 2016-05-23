@@ -30,4 +30,12 @@ public class ConfigurationManager {
         }
     }
 
+    /**
+     * Returns the configuration as PropertiesConfiguration.
+     * @return The properties configuration.
+     */
+    public PropertiesConfiguration getConfiguration() {
+        return propertiesConfiguration;
+    }
+
 }
