@@ -12,12 +12,13 @@ import java.util.logging.Logger;
 
 /**
  * The main program.
+ * @author Friedrich Ewald
  */
 public class Program {
 
     // TODO:
     /**
-     * Write ConfigurationManager
+     * Write default configuration
      * Check Database connector + unit tests
      * Implement run loop
      * Organize deploy
@@ -81,25 +82,23 @@ public class Program {
             try {
                 stopwordList = Files.readAllLines(Paths.get(stopwordFilepath));
             }
-            catch (IOException e) {}
+            catch (IOException e) {
+                log.severe("Could not open stopwords list. Using default list.");
+            }
         }
         try {
-            final Feed faz = new Feed("FAZ.net", new URL("http://www.faz.net/rss/aktuell/"), stopwordList);
-            //FeedReader reader = new FeedReader(faz);
-            //Thread thread = new Thread(reader);
-            //thread.start();
-            Timer t = new Timer();
-            TimerTask tt = new TimerTask() {
-                @Override
-                public void run() {
-                    log.info(String.format("Fetching feed of: %1s", faz.name));
-                }
-            };
-            t.scheduleAtFixedRate(tt, 0, 1000);
+            Feed faz = null;
+            if (stopwordList == null) {
+                faz = new Feed("FAZ.net", new URL("http://www.faz.net/rss/aktuell/"));
+            }
+            else {
+                faz = new Feed("FAZ.net", new URL("http://www.faz.net/rss/aktuell/"), stopwordList);
+            }
+
+            Timer timer = new Timer();
+            FeedTimerTask timerTask = new FeedTimerTask(faz);
+            timer.scheduleAtFixedRate(timerTask, 0, 1000 * 60 * 5);
         }
         catch (Exception e) {}
-        //catch (MalformedURLException e) {
-
-        //}
     }
 }
