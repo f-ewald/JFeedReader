@@ -1,6 +1,7 @@
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.logging.Logger;
 
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
@@ -16,8 +17,16 @@ public class FeedReader implements Runnable {
      */
     private Feed feed;
 
+    /**
+     * Logger
+     */
+    private Logger logger;
+
     public FeedReader(Feed feed) {
         this.feed = feed;
+
+        // Initialize the logger.
+        logger = Logger.getLogger("FeedReader");
     }
 
     private void read() {
@@ -39,7 +48,7 @@ public class FeedReader implements Runnable {
                     }
                 }
                 catch (NullPointerException exception) {
-                    System.err.println("error");
+                    logger.severe("Failed to read article.");
                 }
             }
             // Update the lastupdate to now
