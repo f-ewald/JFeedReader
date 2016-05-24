@@ -25,14 +25,21 @@ public class FeedReader implements Runnable {
             SyndFeedInput input = new SyndFeedInput();
             SyndFeed feed = input.build(new XmlReader(this.feed.url));
             for (SyndEntry entry : feed.getEntries ()) {
-                LocalDateTime publishedDateTime = entry.getPublishedDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-                Article article = new Article(entry.getTitle(), publishedDateTime);
-                article.author = entry.getAuthor();
-                article.updatedDateTime = entry.getUpdatedDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-                article.url = new URL(entry.getLink());
-                article.content = entry.getDescription().getValue();
-                if (this.feed.lastArticle == null || !this.feed.lastArticle.equals(article)) {
-                    this.feed.articles.add(article);
+                try {
+                    LocalDateTime publishedDateTime = entry.getPublishedDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+                    Article article = new Article(entry.getTitle(), publishedDateTime);
+                    article.author = entry.getAuthor();
+                    if (entry.getUpdatedDate() != null) {
+                        article.updatedDateTime = entry.getUpdatedDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+                    }
+                    article.url = new URL(entry.getLink());
+                    article.content = entry.getDescription().getValue();
+                    if (this.feed.lastArticle == null || !this.feed.lastArticle.equals(article)) {
+                        this.feed.articles.add(article);
+                    }
+                }
+                catch (NullPointerException exception) {
+                    System.err.println("error");
                 }
             }
             // Update the lastupdate to now
