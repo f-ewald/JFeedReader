@@ -13,10 +13,31 @@ public class Article {
      * Headline of the article
      */
     public String headline;
+
+    /**
+     * The date and time when the article has been published in local time zone.
+     */
     public LocalDateTime publishedDateTime;
+
+    /**
+     * The date and time when the article has been updated in local time zone.
+     * Null, if the article has not been updated.
+     */
     public LocalDateTime updatedDateTime;
+
+    /**
+     * The URL to the full article.
+     */
     public URL url;
+
+    /**
+     * The author of the article. Null if no author is provided.
+     */
     public String author;
+
+    /**
+     * The content or teaser of the article.
+     */
     public String content;
 
     public Article(String headline, LocalDateTime publishedDateTime) {
@@ -55,6 +76,4 @@ public class Article {
         document.append("content", content);
         return document;
     }
-
-
 }
