@@ -1,13 +1,11 @@
 import org.apache.commons.cli.*;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Timer;
-import java.util.TimerTask;
 import java.util.logging.Logger;
 
 /**
@@ -18,9 +16,13 @@ public class Program {
 
     // TODO:
     /**
+     * create field headline cleaned
+     * Create program to clean html tags out of content
+     *
+     * Create program to resume and not double download articles
+     *
      * Write default configuration
      * Check Database connector + unit tests
-     * Implement run loop
      * Organize deploy
      * Improve class for Psql connector
      */

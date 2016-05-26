@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 
 /**
  * Feed structure for Articles.
+ * @author Friedrich Ewald
  */
 public class Feed {
     /**
