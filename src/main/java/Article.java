@@ -1,5 +1,5 @@
-import com.google.gson.Gson;
 import org.bson.Document;
+
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -47,8 +47,10 @@ public class Article {
         Document document = new Document();
         document.append("headline", headline);
         document.append("publishedDateTime", publishedDateTime.format(dateTimeFormatter));
-        document.append("updatedDateTime", updatedDateTime.format(dateTimeFormatter));
-        document.append("url", url);
+        if (updatedDateTime != null) {
+            document.append("updatedDateTime", updatedDateTime.format(dateTimeFormatter));
+        }
+        document.append("url", url.toString());
         document.append("author", author);
         document.append("content", content);
         return document;
