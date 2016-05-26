@@ -16,7 +16,6 @@ public class Program {
 
     // TODO:
     /**
-     * create field headline cleaned
      * Create program to clean html tags out of content
      *
      * Create program to resume and not double download articles
@@ -79,10 +78,10 @@ public class Program {
         // If the configuration file has been set, try to parse it
 
 
-        List<String> stopwordList = null;
+        List<String> stopWordList = null;
         if (stopwordFilepath != null) {
             try {
-                stopwordList = Files.readAllLines(Paths.get(stopwordFilepath));
+                stopWordList = Files.readAllLines(Paths.get(stopwordFilepath));
             }
             catch (IOException e) {
                 log.severe("Could not open stopwords list. Using default list.");
@@ -90,11 +89,11 @@ public class Program {
         }
         try {
             Feed faz = null;
-            if (stopwordList == null) {
+            if (stopWordList == null) {
                 faz = new Feed("FAZ.net", new URL("http://www.faz.net/rss/aktuell/"));
             }
             else {
-                faz = new Feed("FAZ.net", new URL("http://www.faz.net/rss/aktuell/"), stopwordList);
+                faz = new Feed("FAZ.net", new URL("http://www.faz.net/rss/aktuell/"), stopWordList);
             }
 
             Timer timer = new Timer();
