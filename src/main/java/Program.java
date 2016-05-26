@@ -84,7 +84,7 @@ public class Program {
                 stopWordList = Files.readAllLines(Paths.get(stopwordFilepath));
             }
             catch (IOException e) {
-                log.severe("Could not open stopwords list. Using default list.");
+                log.severe("Could not open stop words list. Using default list.");
             }
         }
         try {

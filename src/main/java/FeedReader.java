@@ -1,11 +1,12 @@
+import com.rometools.rome.feed.synd.SyndEntry;
+import com.rometools.rome.feed.synd.SyndFeed;
+import com.rometools.rome.io.SyndFeedInput;
+import com.rometools.rome.io.XmlReader;
+
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.logging.Logger;
-
-import com.rometools.rome.feed.synd.SyndEntry;
-import com.rometools.rome.feed.synd.SyndFeed;
-import com.rometools.rome.io.*;
 
 /**
  * Class to perform asynchronous requests and read the RSS/Atom feed
@@ -32,11 +33,11 @@ public class FeedReader implements Runnable {
     private void read() {
         try {
             SyndFeedInput input = new SyndFeedInput();
-            SyndFeed feed = input.build(new XmlReader(this.feed.url));
-            for (SyndEntry entry : feed.getEntries ()) {
+            SyndFeed syndFeed = input.build(new XmlReader(this.feed.url));
+            for (SyndEntry entry : syndFeed.getEntries ()) {
                 try {
                     LocalDateTime publishedDateTime = entry.getPublishedDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-                    Article article = new Article(entry.getTitle(), publishedDateTime);
+                    Article article = new Article(entry.getTitle(), publishedDateTime, feed.stopWords);
                     article.author = entry.getAuthor();
                     if (entry.getUpdatedDate() != null) {
                         article.updatedDateTime = entry.getUpdatedDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
