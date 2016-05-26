@@ -11,8 +11,14 @@ import java.time.format.DateTimeFormatter;
 public class Article {
     /**
      * Headline of the article
+     * This is the optimized version which is cleaned for stopwords and any other special chars.
      */
-    public String headline;
+    private String headline;
+
+    /**
+     * The original headline as it is delivered by the feed.
+     */
+    private String headlineOriginal;
 
     /**
      * The date and time when the article has been published in local time zone.
@@ -41,7 +47,9 @@ public class Article {
     public String content;
 
     public Article(String headline, LocalDateTime publishedDateTime) {
-        this.headline = headline;
+        HeadlineFormatter headlineFormatter = new HeadlineFormatter();
+        this.headline = headlineFormatter.getCleanString(headline);
+        this.headlineOriginal = headline;
         this.publishedDateTime = publishedDateTime;
     }
 
