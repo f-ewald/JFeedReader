@@ -1,5 +1,4 @@
 import java.sql.Connection;
-
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -103,12 +102,12 @@ public class PsqlDatabaseConnector implements IDatabaseConnector {
 
         if (connection != null) {
             try {
-                String sql = String.format("INSERT INTO article(headline, author, published_datetime) VALUES(%s1, %2s, %3s)", article.headline, article.author, formattedPublishedDateTime);
+                String sql = String.format("INSERT INTO article(headline, author, published_datetime) VALUES(%s1, %2s, %3s)", article.getHeadline(), article.author, formattedPublishedDateTime);
                 PreparedStatement stmt = connection.prepareStatement(sql);
                 stmt.execute();
-                logger.info(String.format("Article %1s added to database", article.headline));
+                logger.info(String.format("Article %1s added to database", article.getHeadline()));
             } catch (SQLException e) {
-                logger.severe(String.format("Failed to add article %1s", article.headline));
+                logger.severe(String.format("Failed to add article %1s", article.getHeadline()));
                 e.printStackTrace();
             }
         }

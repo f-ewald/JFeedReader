@@ -64,8 +64,20 @@ public class Article {
         return false;
     }
 
+    /**
+     * Getter
+     * @return the modified headline
+     */
     public String getHeadline() {
         return headline;
+    }
+
+    /**
+     * Setter
+     * @param headlineOriginal the new original headline
+     */
+    public void setHeadlineOriginal(String headlineOriginal) {
+        this.headlineOriginal = headlineOriginal;
     }
 
     public String getHeadlineOriginal() {

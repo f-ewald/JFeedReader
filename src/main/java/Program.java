@@ -43,6 +43,11 @@ public class Program {
      */
     private static String stopwordFilepath;
 
+    /**
+     * The type of the database to use.
+     */
+    private static DatabaseTypeEnum databaseType;
+
     public static void main(String[] args) {
         // Initialize the logger
         final Logger log = Logger.getLogger("main");
@@ -53,6 +58,7 @@ public class Program {
         cliOptions.addOption("d", "debug", false, "show debug information on the console");
         cliOptions.addOption("c", "configuration", true, "use the configuration file");
         cliOptions.addOption("s", "stopwords", true, "use a specific stopwords file");
+        cliOptions.addOption("db", "database", true, "Which database type to use (postgres|mongodb)");
 
         CommandLineParser parser = new DefaultParser();
         try {
@@ -67,6 +73,11 @@ public class Program {
 
             if (cli.hasOption("stopwords")) {
                 stopwordFilepath = cli.getOptionValue("stopwords", null);
+            }
+
+            if (cli.hasOption("database")) {
+                String dbType = cli.getOptionValue("database", "mongodb");
+                // TODO: Parse enum
             }
         }
         catch (ParseException exception) {

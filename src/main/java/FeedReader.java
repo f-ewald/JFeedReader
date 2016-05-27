@@ -34,16 +34,24 @@ public class FeedReader implements Runnable {
         try {
             SyndFeedInput input = new SyndFeedInput();
             SyndFeed syndFeed = input.build(new XmlReader(this.feed.url));
+
+            // Initialize headline formatter with stop words
+            HeadlineFormatter headlineFormatter = new HeadlineFormatter(this.feed.stopWords);
+
             for (SyndEntry entry : syndFeed.getEntries ()) {
                 try {
+                    // Convert the Date object to LocalDateTimeObject
                     LocalDateTime publishedDateTime = entry.getPublishedDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-                    Article article = new Article(entry.getTitle(), publishedDateTime, feed.stopWords);
+
+                    // Create a new article object and set the values
+                    Article article = new Article(entry.getTitle(), publishedDateTime);
+                    article.setHeadlineOriginal(headlineFormatter.getCleanString(article.getHeadline()));
                     article.author = entry.getAuthor();
                     if (entry.getUpdatedDate() != null) {
                         article.updatedDateTime = entry.getUpdatedDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
                     }
                     article.url = new URL(entry.getLink());
-                    article.content = entry.getDescription().getValue();
+                    article.content = ContentFormatter.cleanHtml(entry.getDescription().getValue());
                     if (this.feed.lastArticle == null || !this.feed.lastArticle.equals(article)) {
                         this.feed.articles.add(article);
                     }
@@ -52,7 +60,7 @@ public class FeedReader implements Runnable {
                     logger.severe("Failed to read article.");
                 }
             }
-            // Update the lastupdate to now
+            // Update the last update to now
             this.feed.lastUpdate = LocalDateTime.now();
 
             // Update the last fetched article, if articles were fetched during the run.
