@@ -2,8 +2,6 @@ import org.apache.commons.cli.*;
 
 import java.io.IOException;
 import java.net.URL;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Timer;
 import java.util.logging.Logger;
@@ -77,7 +75,7 @@ public class Program {
 
             if (cli.hasOption("database")) {
                 String dbType = cli.getOptionValue("database", "mongodb");
-                // TODO: Parse enum
+                DatabaseTypeEnum databaseType = DatabaseTypeEnum.fromString(dbType);
             }
         }
         catch (ParseException exception) {
@@ -92,10 +90,10 @@ public class Program {
         List<String> stopWordList = null;
         if (stopwordFilepath != null) {
             try {
-                stopWordList = Files.readAllLines(Paths.get(stopwordFilepath));
+                stopWordList = ResourceHandler.getResourceAsList("stopwords_en.txt");
             }
-            catch (IOException e) {
-                log.severe("Could not open stop words list. Using default list.");
+            catch (IOException exception) {
+                log.severe("Could not load stopwords file.");
             }
         }
         try {
