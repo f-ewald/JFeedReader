@@ -3,7 +3,6 @@ import org.bson.Document;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 
 /**
@@ -47,9 +46,8 @@ public class Article {
      */
     public String content;
 
-    public Article(String headline, LocalDateTime publishedDateTime, List<String> stopWordList) {
-        HeadlineFormatter headlineFormatter = new HeadlineFormatter(stopWordList);
-        this.headline = headlineFormatter.getCleanString(headline);
+    public Article(String headline, LocalDateTime publishedDateTime) {
+        this.headline = headline;
         this.headlineOriginal = headline;
         this.publishedDateTime = publishedDateTime;
     }
@@ -64,6 +62,14 @@ public class Article {
             return true;
         }
         return false;
+    }
+
+    public String getHeadline() {
+        return headline;
+    }
+
+    public String getHeadlineOriginal() {
+        return headlineOriginal;
     }
 
     /**
