@@ -36,6 +36,11 @@ public class FeedReader implements Runnable {
         logger = Logger.getLogger("FeedReader");
     }
 
+    public FeedReader(Feed feed, HashSet<String> stopWords) {
+        this(feed);
+        this.stopWords = stopWords;
+    }
+
     private void read() throws FeedReadException, ConnectionException {
         SyndFeedInput input = new SyndFeedInput();
         SyndFeed syndFeed = null;
@@ -50,7 +55,7 @@ public class FeedReader implements Runnable {
         }
 
         // Initialize headline formatter with stop words
-        HeadlineFormatter headlineFormatter = new HeadlineFormatter(this.feed.stopWords);
+        HeadlineFormatter headlineFormatter = new HeadlineFormatter(this.stopWords);
 
         for (SyndEntry entry : syndFeed.getEntries ()) {
             // Convert the Date object to LocalDateTimeObject

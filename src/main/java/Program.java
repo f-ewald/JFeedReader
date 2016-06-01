@@ -14,8 +14,6 @@ public class Program {
 
     // TODO:
     /**
-     * Create program to clean html tags out of content
-     *
      * Create program to resume and not double download articles
      *
      * Write default configuration
@@ -67,6 +65,9 @@ public class Program {
 
             if (cli.hasOption("configuration")) {
                 configuration = cli.getOptionValue("configuration", null);
+                if (configuration != null) {
+                    // TODO: Finish read of configuration file.
+                }
             }
 
             if (cli.hasOption("stopwords")) {
@@ -84,9 +85,6 @@ public class Program {
             System.exit(1);
         }
 
-        // If the configuration file has been set, try to parse it
-
-
         HashSet<String> stopWords = null;
         if (stopwordFilepath != null) {
             try {
@@ -97,16 +95,11 @@ public class Program {
             }
         }
         try {
-            Feed faz = null;
-            if (stopWords == null) {
-                faz = new Feed("FAZ.net", new URL("http://www.faz.net/rss/aktuell/"));
-            }
-            else {
-                faz = new Feed("FAZ.net", new URL("http://www.faz.net/rss/aktuell/"));
-            }
+            Feed faz = new Feed("FAZ.net", new URL("http://www.faz.net/rss/aktuell/"));
 
             Timer timer = new Timer();
             FeedTimerTask timerTask = new FeedTimerTask(faz, stopWords);
+            // Run the task every five minutes.
             timer.scheduleAtFixedRate(timerTask, 0, 1000 * 60 * 5);
         }
         catch (Exception e) {}

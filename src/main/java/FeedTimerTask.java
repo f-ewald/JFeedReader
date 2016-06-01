@@ -16,10 +16,23 @@ public class FeedTimerTask extends TimerTask  {
 
     private Logger logger;
 
-    public FeedTimerTask(Feed feed, HashSet<String> stopWords) {
+    /**
+     * Basic constructor.
+     * @param feed The feed to fetch.
+     */
+    public FeedTimerTask(Feed feed) {
         this.feed = feed;
-        this.stopWords = stopWords;
         logger = Logger.getLogger("FeedTimerTask");
+    }
+
+    /**
+     * Constructor which accepts a feed and stop words.
+     * @param feed The feed to fetch.
+     * @param stopWords The stop words to apply.
+     */
+    public FeedTimerTask(Feed feed, HashSet<String> stopWords) {
+        this(feed);
+        this.stopWords = stopWords;
     }
 
     /**
