@@ -1,6 +1,5 @@
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashSet;
 
 /**
  * Class to clean Strings from all unnecessary characters.
@@ -9,7 +8,7 @@ public class HeadlineFormatter {
     /**
      * The stop words to apply. Either from the template or from a supplied List.
      */
-    private List<String> stopWords;
+    private HashSet<String> stopWords;
 
     /**
      * Template for stop words, separated by comma.
@@ -20,14 +19,16 @@ public class HeadlineFormatter {
      * Default constructor, loads a limited stopword list from a template.
      */
     public HeadlineFormatter() {
-        stopWords = Arrays.asList(stopWordsTemplate.split(","));
+        for (String item : Arrays.asList(stopWordsTemplate.split(","))) {
+            stopWords.add(item);
+        }
     }
 
     /**
      * Takes a list of stop words as an argument and uses it for string processing.
      * @param stopWords List of stop words.
      */
-    public HeadlineFormatter(List<String> stopWords) {
+    public HeadlineFormatter(HashSet<String> stopWords) {
         this.stopWords = stopWords;
     }
 
@@ -49,7 +50,8 @@ public class HeadlineFormatter {
         // Loop over the String and add it to the output if it does not match any of the stopWords.
         for (String str : inputArray) {
             String tmp = str.toLowerCase().trim();
-            if (stopWords.indexOf(tmp) == -1) {
+            // If the set does NOT contain the current word...
+            if (!stopWords.contains(tmp)) {
                 result = String.format("%1s %2s", result, tmp).trim();
             }
         }

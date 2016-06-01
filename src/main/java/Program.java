@@ -2,7 +2,7 @@ import org.apache.commons.cli.*;
 
 import java.io.IOException;
 import java.net.URL;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Timer;
 import java.util.logging.Logger;
 
@@ -87,10 +87,10 @@ public class Program {
         // If the configuration file has been set, try to parse it
 
 
-        List<String> stopWordList = null;
+        HashSet<String> stopWords = null;
         if (stopwordFilepath != null) {
             try {
-                stopWordList = ResourceHandler.getResourceAsList("stopwords_en.txt");
+                stopWords = ResourceHandler.getResourceAsHashSet("stopwords_en.txt");
             }
             catch (IOException exception) {
                 log.severe("Could not load stopwords file.");
@@ -98,15 +98,15 @@ public class Program {
         }
         try {
             Feed faz = null;
-            if (stopWordList == null) {
+            if (stopWords == null) {
                 faz = new Feed("FAZ.net", new URL("http://www.faz.net/rss/aktuell/"));
             }
             else {
-                faz = new Feed("FAZ.net", new URL("http://www.faz.net/rss/aktuell/"), stopWordList);
+                faz = new Feed("FAZ.net", new URL("http://www.faz.net/rss/aktuell/"));
             }
 
             Timer timer = new Timer();
-            FeedTimerTask timerTask = new FeedTimerTask(faz);
+            FeedTimerTask timerTask = new FeedTimerTask(faz, stopWords);
             timer.scheduleAtFixedRate(timerTask, 0, 1000 * 60 * 5);
         }
         catch (Exception e) {}

@@ -1,9 +1,10 @@
-import com.mongodb.*;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoCredential;
+import com.mongodb.MongoSocketOpenException;
+import com.mongodb.ServerAddress;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
-import org.bson.codecs.configuration.CodecRegistries;
-import org.bson.codecs.configuration.CodecRegistry;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -72,7 +73,7 @@ public class MongoDatabaseConnector implements IDatabaseConnector {
     /**
      * Open a connection to the database server.
      */
-    public void open() {
+    public void open() throws ConnectionException {
         try {
             ServerAddress serverAddress = new ServerAddress(host, port);
 
@@ -90,7 +91,7 @@ public class MongoDatabaseConnector implements IDatabaseConnector {
             logger.info("Connected to MongoDB.");
         }
         catch (MongoSocketOpenException exception) {
-            logger.severe("Cannot open connection to database");
+            throw new ConnectionException("Could not connect to MongoDB.");
         }
     }
 

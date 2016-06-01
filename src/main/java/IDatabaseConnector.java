@@ -6,7 +6,7 @@ public interface IDatabaseConnector {
      * Opens the connection to the database.
      * All the parameters have to be set via the constructor.
      */
-    void open();
+    void open() throws ConnectionException;
 
     /**
      * Closes the connection to the database.

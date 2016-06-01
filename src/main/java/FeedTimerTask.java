@@ -1,3 +1,4 @@
+import java.util.HashSet;
 import java.util.TimerTask;
 import java.util.logging.Logger;
 
@@ -6,12 +7,18 @@ import java.util.logging.Logger;
  */
 public class FeedTimerTask extends TimerTask  {
 
+    /**
+     * The feed to load
+     */
     private Feed feed;
+
+    private HashSet<String> stopWords;
 
     private Logger logger;
 
-    public FeedTimerTask(Feed feed) {
+    public FeedTimerTask(Feed feed, HashSet<String> stopWords) {
         this.feed = feed;
+        this.stopWords = stopWords;
         logger = Logger.getLogger("FeedTimerTask");
     }
 

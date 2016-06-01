@@ -46,9 +46,8 @@ public class Article {
      */
     public String content;
 
-    public Article(String headline, LocalDateTime publishedDateTime) {
-        this.headline = headline;
-        this.headlineOriginal = headline;
+    public Article(String headlineOriginal, LocalDateTime publishedDateTime) {
+        this.headlineOriginal = headlineOriginal;
         this.publishedDateTime = publishedDateTime;
     }
 
@@ -74,14 +73,22 @@ public class Article {
 
     /**
      * Setter
-     * @param headlineOriginal the new original headline
+     * @param headline the new headline
      */
-    public void setHeadlineOriginal(String headlineOriginal) {
-        this.headlineOriginal = headlineOriginal;
+    public void setHeadline(String headline) {
+        this.headline = headline;
     }
 
     public String getHeadlineOriginal() {
         return headlineOriginal;
+    }
+
+    /**
+     * Setter
+     * @param headlineOriginal the new original headline
+     */
+    public void setHeadlineOriginal(String headlineOriginal) {
+        this.headlineOriginal = headlineOriginal;
     }
 
     /**

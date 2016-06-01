@@ -1,7 +1,8 @@
 import java.net.URL;
 import java.time.LocalDateTime;
-import java.util.LinkedList;
+import java.util.ArrayDeque;
 import java.util.List;
+import java.util.Queue;
 import java.util.logging.Logger;
 
 /**
@@ -27,7 +28,7 @@ public class Feed {
     /**
      * The entries of the feed.
      */
-    public LinkedList<Article> articles;
+    public Queue<Article> articles;
 
     /**
      * The last fetched article
@@ -43,22 +44,11 @@ public class Feed {
         this.name = name;
         this.url = url;
 
-        articles = new LinkedList<Article>();
+        articles = new ArrayDeque<Article>();
 
         Logger logger = Logger.getLogger("Feed");
         String message = String.format("Created feed: %s", this.name);
         logger.info(message);
-    }
 
-    /**
-     * Constructor of a feed.
-     * @param name The name of the feed for better readability.
-     * @param url The url of the atom / rss feed.
-     * @param stopWords stop word list
-     */
-    public Feed(String name, URL url, List<String> stopWords) {
-        this(name, url);
-        this.stopWords = stopWords;
     }
-
 }

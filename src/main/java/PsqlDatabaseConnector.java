@@ -65,14 +65,14 @@ public class PsqlDatabaseConnector implements IDatabaseConnector {
      * Opens the connection to the database.
      * All the parameters have to be set via the constructor.
      */
-    public void open() {
+    public void open() throws ConnectionException {
         try {
             String connectionString = String.format("jdbc:postgresql://%1s:%2s/%3s", host, port, database);
             connection = DriverManager.getConnection(connectionString, user, password);
             logger.info("Connected to database server.");
         }
         catch (SQLException exception) {
-            logger.severe("Failed to open connection to database.");
+            throw new ConnectionException("Failed to open connection to database.");
         }
     }
 
