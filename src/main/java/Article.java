@@ -101,6 +101,7 @@ public class Article {
 
         Document document = new Document();
         document.append("headline", headline);
+        document.append("headlineOriginal", headlineOriginal);
         document.append("publishedDateTime", publishedDateTime.format(dateTimeFormatter));
         if (updatedDateTime != null) {
             document.append("updatedDateTime", updatedDateTime.format(dateTimeFormatter));
