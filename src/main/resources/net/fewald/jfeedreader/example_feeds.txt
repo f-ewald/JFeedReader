@@ -1,0 +1,2 @@
+FAZ.net;http://www.faz.net/rss/aktuell/
+ZeitWirtschaft;http://newsfeed.zeit.de/wirtschaft/index
