@@ -1,9 +1,11 @@
 package net.fewald.jfeedreader;
+
 import org.apache.commons.cli.*;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Timer;
 import java.util.logging.Logger;
 
@@ -41,6 +43,11 @@ public class Program {
     private static String stopwordFilepath;
 
     /**
+     * The list of feeds to fetch.
+     */
+    private static List<Feed> feedList;
+
+    /**
      * The type of the database to use.
      */
     private static DatabaseTypeEnum databaseType;
@@ -54,6 +61,7 @@ public class Program {
 
         // Preparing and parsing the command line options
         Options cliOptions = new Options();
+        cliOptions.addOption("f", "feed", true, "the feed file to load");
         cliOptions.addOption("d", "debug", false, "show debug information on the console");
         cliOptions.addOption("c", "configuration", true, "use the configuration file");
         cliOptions.addOption("s", "stopwords", true, "use a specific stopwords file");
@@ -62,6 +70,23 @@ public class Program {
         CommandLineParser parser = new DefaultParser();
         try {
             CommandLine cli = parser.parse(cliOptions, args);
+
+            if (cli.hasOption("feed")) {
+                feedList = new LinkedList<Feed>();
+                FeedFileHandler feedFileHandler = new FeedFileHandler();
+                try {
+                    feedList = feedFileHandler.getFeedList(cli.getOptionValue("feed", null));
+                }
+                catch (IOException exception) {
+                    log.severe("Could not load feed file");
+                    System.exit(1);
+                }
+            }
+            else {
+                log.severe("No feed file defined. Aborting.");
+                System.exit(1);
+            }
+
             if (cli.hasOption("debug")) {
                 debug = true;
             }
@@ -97,14 +122,12 @@ public class Program {
                 log.severe("Could not load stopwords file.");
             }
         }
-        try {
-            Feed faz = new Feed("FAZ.net", new URL("http://www.faz.net/rss/aktuell/"));
-
+        for (Feed feed : feedList) {
             Timer timer = new Timer();
-            FeedTimerTask timerTask = new FeedTimerTask(faz, stopWords);
+            FeedTimerTask timerTask = new FeedTimerTask(feed, stopWords);
             // Run the task every five minutes.
             timer.scheduleAtFixedRate(timerTask, 0, 1000 * 20);
         }
-        catch (Exception e) {}
+        //Feed faz = new Feed("FAZ.net", new URL("http://www.faz.net/rss/aktuell/"));
     }
 }
