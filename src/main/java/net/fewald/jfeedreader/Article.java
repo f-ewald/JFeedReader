@@ -12,6 +12,11 @@ import java.time.format.DateTimeFormatter;
  */
 public class Article {
     /**
+     * The name of the feed the article belongs to.
+     */
+    public String feedName;
+
+    /**
      * Headline of the article
      * This is the optimized version which is cleaned for stopwords and any other special chars.
      */
@@ -102,6 +107,7 @@ public class Article {
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
 
         Document document = new Document();
+        document.append("feedName", feedName);
         document.append("headline", headline);
         document.append("headlineOriginal", headlineOriginal);
         document.append("publishedDateTime", publishedDateTime.format(dateTimeFormatter));
