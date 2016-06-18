@@ -57,7 +57,7 @@ public class Article {
      * @return true if both articles are equal, otherwise false
      */
     public boolean equals(Article a) {
-        if (a.headline.equals(headline) && a.publishedDateTime.equals(publishedDateTime)) {
+        if (a.getHeadlineOriginal().equals(getHeadlineOriginal()) && a.publishedDateTime.equals(publishedDateTime)) {
             return true;
         }
         return false;
