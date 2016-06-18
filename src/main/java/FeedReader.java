@@ -90,9 +90,9 @@ public class FeedReader implements Runnable {
             if (!feed.currentArticles.contains(article.getHeadline())) {
                 // Add the article to the queue, if it is not the latest one.
                 feed.articles.add(article);
-                //feed.currentArticles.add(article.getHeadline());
-                articleHeadlinesCurrentRunHashSet.add(article.getHeadline());
             }
+            // Add the headline to the current processed headlines.
+            articleHeadlinesCurrentRunHashSet.add(article.getHeadline());
         }
 
         // Update the last update to now
