@@ -128,6 +128,5 @@ public class Program {
             // Run the task every five minutes.
             timer.scheduleAtFixedRate(timerTask, 0, 1000 * 20);
         }
-        //Feed faz = new Feed("FAZ.net", new URL("http://www.faz.net/rss/aktuell/"));
     }
 }
