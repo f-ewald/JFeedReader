@@ -9,7 +9,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.util.HashSet;
 import java.util.logging.Logger;
 
 /**
@@ -42,6 +41,7 @@ public class FeedReader implements Runnable {
     }
 
     private void read() throws FeedReadException, ConnectionException {
+        HashSet<String> articleHeadlinesCurrentRunHashSet = new HashSet<String>();
         SyndFeedInput input = new SyndFeedInput();
         SyndFeed syndFeed = null;
         try {
@@ -82,22 +82,33 @@ public class FeedReader implements Runnable {
             }
             article.url = url;
             article.content = ContentFormatter.cleanHtml(entry.getDescription().getValue());
-            if (this.feed.lastArticle == null || !this.feed.lastArticle.equals(article)) {
-                this.feed.articles.add(article);
+
+            // Check, if the article is in the current list of articles already.
+            // If this is the case, don't add it to the database because this would
+            // be a duplicate.
+            if (!feed.currentArticles.contains(article.getHeadline())) {
+                // Add the article to the queue, if it is not the latest one.
+                feed.articles.add(article);
+                //feed.currentArticles.add(article.getHeadline());
+                articleHeadlinesCurrentRunHashSet.add(article.getHeadline());
             }
         }
+
         // Update the last update to now
-        this.feed.lastUpdate = LocalDateTime.now();
+        feed.lastUpdate = LocalDateTime.now();
 
         IDatabaseConnector database = new MongoDatabaseConnector("127.0.0.1", 27017, null, null, "news");
         database.open();
 
         // Remove all but the last element from the queue.
-        while (feed.articles.size() > 1) {
+        while (feed.articles.size() > 0) {
             Article a = feed.articles.remove();
             database.addArticle(a);
         }
         database.close();
+
+        // Clean up the current articles
+        feed.currentArticles = articleHeadlinesCurrentRunHashSet;
     }
 
     /**

@@ -1,5 +1,4 @@
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.PropertiesConfiguration;
+
 
 import java.util.logging.Logger;
 
@@ -10,7 +9,7 @@ public class ConfigurationManager {
     /**
      * The underlying configuration manager.
      */
-    private PropertiesConfiguration propertiesConfiguration;
+    //private PropertiesConfiguration propertiesConfiguration;
 
     /**
      * a logger.
@@ -22,20 +21,12 @@ public class ConfigurationManager {
      */
     public ConfigurationManager() {
         logger = Logger.getLogger("configurationmanager");
-        try {
-            propertiesConfiguration = new PropertiesConfiguration("configuration.properties");
-        } catch (ConfigurationException e) {
-            logger.severe("Failed to load configuration file. Using default values.");
-            e.printStackTrace();
-        }
+
     }
 
     /**
      * Returns the configuration as PropertiesConfiguration.
      * @return The properties configuration.
      */
-    public PropertiesConfiguration getConfiguration() {
-        return propertiesConfiguration;
-    }
 
 }

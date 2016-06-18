@@ -1,6 +1,7 @@
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayDeque;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Queue;
 import java.util.logging.Logger;
@@ -31,9 +32,10 @@ public class Feed {
     public Queue<Article> articles;
 
     /**
-     * The last fetched article
+     * The current articles.
+     * Used so that there is no article is fetched twice.
      */
-    public Article lastArticle;
+    public HashSet<String> currentArticles;
 
     /**
      * Stop words for this feed.
@@ -45,6 +47,7 @@ public class Feed {
         this.url = url;
 
         articles = new ArrayDeque<Article>();
+        currentArticles = new HashSet<String>();
 
         Logger logger = Logger.getLogger("Feed");
         String message = String.format("Created feed: %s", this.name);

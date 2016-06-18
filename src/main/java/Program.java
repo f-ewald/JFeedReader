@@ -100,7 +100,7 @@ public class Program {
             Timer timer = new Timer();
             FeedTimerTask timerTask = new FeedTimerTask(faz, stopWords);
             // Run the task every five minutes.
-            timer.scheduleAtFixedRate(timerTask, 0, 1000 * 60 * 5);
+            timer.scheduleAtFixedRate(timerTask, 0, 1000 * 20);
         }
         catch (Exception e) {}
     }

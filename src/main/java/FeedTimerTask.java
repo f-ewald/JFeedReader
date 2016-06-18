@@ -49,7 +49,7 @@ public class FeedTimerTask extends TimerTask  {
     public void run() {
         logger.info(String.format("Fetching feed %1s", feed.name));
 
-        FeedReader feedReader = new FeedReader(feed);
+        FeedReader feedReader = new FeedReader(feed, stopWords);
         Thread feedFetchThread = new Thread(feedReader);
         feedFetchThread.start();
     }

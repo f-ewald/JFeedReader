@@ -5,7 +5,7 @@
       <paths name="Uberspace">
         <serverdata>
           <mappings>
-            <mapping local="$PROJECT_DIR$" web="/" />
+            <mapping deploy="/user/services/jfeedreader/" local="$PROJECT_DIR$" web="/" />
           </mappings>
         </serverdata>
       </paths>
