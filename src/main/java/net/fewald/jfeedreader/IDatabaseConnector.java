@@ -1,3 +1,5 @@
+package net.fewald.jfeedreader;
+
 /**
  * Interface to handle the database connection
  */

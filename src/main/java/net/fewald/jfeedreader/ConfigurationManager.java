@@ -1,3 +1,5 @@
+package net.fewald.jfeedreader;
+
 import java.util.logging.Logger;
 
 /**

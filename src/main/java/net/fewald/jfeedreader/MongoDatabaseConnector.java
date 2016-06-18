@@ -1,3 +1,5 @@
+package net.fewald.jfeedreader;
+
 import com.mongodb.MongoClient;
 import com.mongodb.MongoCredential;
 import com.mongodb.MongoSocketOpenException;

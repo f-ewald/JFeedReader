@@ -1,3 +1,5 @@
+package net.fewald.jfeedreader;
+
 import org.bson.Document;
 
 import java.net.URL;

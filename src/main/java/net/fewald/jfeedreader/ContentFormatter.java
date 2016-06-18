@@ -1,3 +1,5 @@
+package net.fewald.jfeedreader;
+
 import org.jsoup.Jsoup;
 import org.jsoup.safety.Whitelist;
 

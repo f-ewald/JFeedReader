@@ -1,3 +1,5 @@
+package net.fewald.jfeedreader;
+
 /**
  * Created by fe on 27.05.16.
  */

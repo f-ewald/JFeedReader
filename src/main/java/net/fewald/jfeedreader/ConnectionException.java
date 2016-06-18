@@ -1,3 +1,5 @@
+package net.fewald.jfeedreader;
+
 /**
  * Connection exception which occurs when there is no connection to the database.
  */

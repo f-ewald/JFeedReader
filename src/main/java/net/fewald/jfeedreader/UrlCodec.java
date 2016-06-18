@@ -1,3 +1,5 @@
+package net.fewald.jfeedreader;
+
 import org.bson.BsonReader;
 import org.bson.BsonWriter;
 import org.bson.codecs.Codec;

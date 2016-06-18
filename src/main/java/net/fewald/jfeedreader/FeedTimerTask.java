@@ -1,3 +1,5 @@
+package net.fewald.jfeedreader;
+
 import java.util.HashSet;
 import java.util.TimerTask;
 import java.util.logging.Logger;

@@ -1,4 +1,5 @@
 import junit.framework.TestCase;
+import net.fewald.jfeedreader.Article;
 
 import java.time.LocalDateTime;
 

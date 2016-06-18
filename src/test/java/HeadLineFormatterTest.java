@@ -1,4 +1,5 @@
 import junit.framework.TestCase;
+import net.fewald.jfeedreader.HeadlineFormatter;
 
 /**
  * Created by fe on 19.05.16.

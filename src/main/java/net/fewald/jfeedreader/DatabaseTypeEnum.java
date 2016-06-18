@@ -1,3 +1,5 @@
+package net.fewald.jfeedreader;
+
 /**
  * This enumeration contains all the valid database types.
  */

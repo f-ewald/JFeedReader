@@ -1,3 +1,5 @@
+package net.fewald.jfeedreader;
+
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.ArrayDeque;
