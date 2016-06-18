@@ -86,7 +86,7 @@ public class Program {
         }
 
         HashSet<String> stopWords = null;
-        if (stopwordFilepath != null) {
+        if (stopwordFilepath == null) {
             try {
                 stopWords = ResourceHandler.getResourceAsHashSet("stopwords_en.txt");
             }

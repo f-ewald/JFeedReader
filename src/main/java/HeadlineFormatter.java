@@ -19,6 +19,7 @@ public class HeadlineFormatter {
      * Default constructor, loads a limited stopword list from a template.
      */
     public HeadlineFormatter() {
+        stopWords = new HashSet<String>();
         for (String item : Arrays.asList(stopWordsTemplate.split(","))) {
             stopWords.add(item);
         }
