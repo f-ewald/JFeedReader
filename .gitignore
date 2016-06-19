@@ -1,1 +1,4 @@
 uberspace_config.properties
+out/
+target/
+.idea/
