@@ -100,11 +100,11 @@
             <version>4.12</version>
         </dependency>
 
-        <!-- http://mvnrepository.com/artifact/commons-configuration/commons-configuration -->
+        <!-- https://mvnrepository.com/artifact/commons-configuration/commons-configuration -->
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-configuration2</artifactId>
-            <version>2.0</version>
+            <groupId>commons-configuration</groupId>
+            <artifactId>commons-configuration</artifactId>
+            <version>1.10</version>
         </dependency>
 
         <!-- http://mvnrepository.com/artifact/org.jsoup/jsoup -->
@@ -113,6 +113,7 @@
             <artifactId>jsoup</artifactId>
             <version>1.9.2</version>
         </dependency>
+
     </dependencies>
 
 </project>

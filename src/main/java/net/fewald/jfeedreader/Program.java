@@ -1,7 +1,11 @@
 package net.fewald.jfeedreader;
 
 import org.apache.commons.cli.*;
+import org.apache.commons.configuration.ConfigurationException;
+import org.apache.commons.configuration.ConfigurationFactory;
+import org.apache.commons.configuration.PropertiesConfiguration;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -93,8 +97,21 @@ public class Program {
 
             if (cli.hasOption("configuration")) {
                 configuration = cli.getOptionValue("configuration", null);
-                if (configuration != null) {
+                if (configuration == null) {
                     // TODO: Finish read of configuration file.
+                }
+                else {
+                    // Read default configuration file
+                    try
+                    {
+                        File f = new File("/Users/fe/Development/jfeedreader/uberspace_config.properties");
+                        PropertiesConfiguration configuration = new PropertiesConfiguration(f);
+                        String s = configuration.getString("mongo.server");
+                        System.out.println();
+                    }
+                    catch (ConfigurationException exception) {
+
+                    }
                 }
             }
 
