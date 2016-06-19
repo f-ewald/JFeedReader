@@ -1,4 +1,5 @@
 uberspace_config.properties
+local_config.properties
 out/
 target/
 .idea/
