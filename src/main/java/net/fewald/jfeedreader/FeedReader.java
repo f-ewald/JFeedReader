@@ -29,17 +29,23 @@ public class FeedReader implements Runnable {
      */
     private Logger logger;
 
+    /**
+     * The connection to the database.
+     */
+    public IDatabaseConnector database;
+
     private HashSet<String> stopWords;
 
-    public FeedReader(Feed feed) {
+    public FeedReader(Feed feed, IDatabaseConnector database) {
         this.feed = feed;
+        this.database = database;
 
         // Initialize the logger.
         logger = Logger.getLogger("FeedReader");
     }
 
-    public FeedReader(Feed feed, HashSet<String> stopWords) {
-        this(feed);
+    public FeedReader(Feed feed, IDatabaseConnector database, HashSet<String> stopWords) {
+        this(feed, database);
         this.stopWords = stopWords;
     }
 
@@ -100,7 +106,6 @@ public class FeedReader implements Runnable {
         // Update the last update to now
         feed.lastUpdate = LocalDateTime.now();
 
-        IDatabaseConnector database = new MongoDatabaseConnector("127.0.0.1", 27017, null, null, "news");
         database.open();
 
         // Remove all but the last element from the queue.

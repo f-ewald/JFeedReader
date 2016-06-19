@@ -2,7 +2,6 @@ package net.fewald.jfeedreader;
 
 import org.apache.commons.cli.*;
 import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.ConfigurationFactory;
 import org.apache.commons.configuration.PropertiesConfiguration;
 
 import java.io.File;
@@ -38,7 +37,12 @@ public class Program {
      * File path to the configuration file.
      * null, if not set.
      */
-    private static String configuration;
+    private static String configurationFilename;
+
+    /**
+     * The current configuration for this instance of the application.
+     */
+    private static Configuration configuration;
 
     /**
      * File path to the stop words file.
@@ -96,18 +100,23 @@ public class Program {
             }
 
             if (cli.hasOption("configuration")) {
-                configuration = cli.getOptionValue("configuration", null);
-                if (configuration == null) {
-                    // TODO: Finish read of configuration file.
+                configurationFilename = cli.getOptionValue("configuration", null);
+                if (configurationFilename == null) {
+                    // Read default configuration file
                 }
                 else {
-                    // Read default configuration file
+                    // Read custom configuration file
                     try
                     {
-                        File f = new File("/Users/fe/Development/jfeedreader/uberspace_config.properties");
-                        PropertiesConfiguration configuration = new PropertiesConfiguration(f);
-                        String s = configuration.getString("mongo.server");
-                        System.out.println();
+                        // Currently we only support mongoDB server.
+                        configuration = new Configuration();
+                        File f = new File(configurationFilename);
+                        PropertiesConfiguration propertiesConfiguration = new PropertiesConfiguration(f);
+                        configuration.mongoServer = propertiesConfiguration.getString("mongo.server");
+                        configuration.mongoPort = propertiesConfiguration.getInt("mongo.port");
+                        configuration.mongoDatabase = propertiesConfiguration.getString("mongo.database");
+                        configuration.mongoUser = propertiesConfiguration.getString("mongo.user");
+                        configuration.mongoPassword = propertiesConfiguration.getString("mongo.password");
                     }
                     catch (ConfigurationException exception) {
 
@@ -139,11 +148,14 @@ public class Program {
                 log.severe("Could not load stopwords file.");
             }
         }
+
+        IDatabaseConnector databaseConnector = new MongoDatabaseConnector(configuration.mongoServer, configuration.mongoPort, configuration.mongoUser, configuration.mongoPassword, configuration.mongoDatabase);
+
         for (Feed feed : feedList) {
             Timer timer = new Timer();
-            FeedTimerTask timerTask = new FeedTimerTask(feed, stopWords);
+            FeedTimerTask timerTask = new FeedTimerTask(feed, databaseConnector, stopWords);
             // Run the task every five minutes.
-            timer.scheduleAtFixedRate(timerTask, 0, 1000 * 20);
+            timer.scheduleAtFixedRate(timerTask, 0, 1000 * 60 / 3);
         }
     }
 }

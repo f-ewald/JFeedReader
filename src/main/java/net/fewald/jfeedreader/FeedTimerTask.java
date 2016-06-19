@@ -18,12 +18,15 @@ public class FeedTimerTask extends TimerTask  {
 
     private Logger logger;
 
+    private IDatabaseConnector database;
+
     /**
      * Basic constructor.
      * @param feed The feed to fetch.
      */
-    public FeedTimerTask(Feed feed) {
+    public FeedTimerTask(Feed feed, IDatabaseConnector database) {
         this.feed = feed;
+        this.database = database;
         logger = Logger.getLogger("FeedTimerTask");
     }
 
@@ -32,8 +35,8 @@ public class FeedTimerTask extends TimerTask  {
      * @param feed The feed to fetch.
      * @param stopWords The stop words to apply.
      */
-    public FeedTimerTask(Feed feed, HashSet<String> stopWords) {
-        this(feed);
+    public FeedTimerTask(Feed feed, IDatabaseConnector database, HashSet<String> stopWords) {
+        this(feed, database);
         this.stopWords = stopWords;
     }
 
@@ -51,7 +54,7 @@ public class FeedTimerTask extends TimerTask  {
     public void run() {
         logger.info(String.format("Fetching feed %1s", feed.name));
 
-        FeedReader feedReader = new FeedReader(feed, stopWords);
+        FeedReader feedReader = new FeedReader(feed, database, stopWords);
         Thread feedFetchThread = new Thread(feedReader);
         feedFetchThread.start();
     }
