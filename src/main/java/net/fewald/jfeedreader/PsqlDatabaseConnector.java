@@ -63,6 +63,10 @@ public class PsqlDatabaseConnector implements IDatabaseConnector {
         this.logger = Logger.getLogger("psqldatabase");
     }
 
+    public synchronized boolean isOpen() {
+        return false;
+    }
+
     /**
      * Opens the connection to the database.
      * All the parameters have to be set via the constructor.

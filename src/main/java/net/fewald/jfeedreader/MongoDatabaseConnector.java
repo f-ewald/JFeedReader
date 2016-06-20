@@ -48,6 +48,17 @@ public class MongoDatabaseConnector implements IDatabaseConnector {
     private MongoClient client;
 
     /**
+     * Indicator, if the connection is currently open.
+     */
+    private boolean isOpen;
+
+    /**
+     * Number of connections to the database.
+     *
+     */
+    private int connectionCount;
+
+    /**
      * Logging for the console.
      */
     private Logger logger;
@@ -72,36 +83,39 @@ public class MongoDatabaseConnector implements IDatabaseConnector {
         this.logger = Logger.getLogger("mongodatabase");
     }
 
+    public synchronized boolean isOpen() {
+        return isOpen;
+    }
+
     /**
      * Open a connection to the database server.
      */
-    public void open() throws ConnectionException {
-        try {
-            ServerAddress serverAddress = new ServerAddress(host, port);
+    public synchronized void open() throws ConnectionException {
+        if (connectionCount++ == 0) {
+            try {
+                ServerAddress serverAddress = new ServerAddress(host, port);
 
-            if (username == null || username.length() == 0) {
-                client = new MongoClient(serverAddress);
+                if (username == null || username.length() == 0) {
+                    client = new MongoClient(serverAddress);
+                } else {
+                    MongoCredential credential = MongoCredential.createCredential(username, database, password.toCharArray());
+                    List<MongoCredential> credentialList = new LinkedList<MongoCredential>();
+                    credentialList.add(credential);
+                    client = new MongoClient(serverAddress, credentialList);
+                }
+                db = client.getDatabase(database);
+                logger.info("Connected to MongoDB.");
+            } catch (MongoSocketOpenException exception) {
+                throw new ConnectionException("Could not connect to MongoDB.");
             }
-            else {
-                MongoCredential credential = MongoCredential.createCredential(username, database, password.toCharArray());
-                List<MongoCredential> credentialList = new LinkedList<MongoCredential>();
-                credentialList.add(credential);
-                client = new MongoClient(serverAddress, credentialList);
-            }
-
-            db = client.getDatabase(database);
-            logger.info("Connected to MongoDB.");
-        }
-        catch (MongoSocketOpenException exception) {
-            throw new ConnectionException("Could not connect to MongoDB.");
         }
     }
 
     /**
      * Closes the connection to the database server.
      */
-    public void close() {
-        if (client != null) {
+    public synchronized void close() {
+        if (client != null && --connectionCount == 0) {
             client.close();
             logger.info("Connection to MongoDB closed.");
         }
@@ -111,8 +125,13 @@ public class MongoDatabaseConnector implements IDatabaseConnector {
      * Adds an article to the database.
      * @param article The article to add to the database.
      */
-    public void addArticle(Article article) {
+    public synchronized void addArticle(Article article) {
         MongoCollection<Document> collection = db.getCollection("article");
-        collection.insertOne(article.getDocument());
+        try {
+            collection.insertOne(article.getDocument());
+        }
+        catch (IllegalStateException exception) {
+            System.out.println();
+        }
     }
 }

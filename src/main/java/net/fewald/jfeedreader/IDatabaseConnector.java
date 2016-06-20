@@ -5,6 +5,12 @@ package net.fewald.jfeedreader;
  */
 public interface IDatabaseConnector {
     /**
+     * Returns true, if the connection is currently open and false otherwise.
+     * @return true if open, false otherwise.
+     */
+    boolean isOpen();
+
+    /**
      * Opens the connection to the database.
      * All the parameters have to be set via the constructor.
      */
@@ -13,7 +19,7 @@ public interface IDatabaseConnector {
     /**
      * Closes the connection to the database.
      */
-    void close();
+     void close();
 
     /**
      * Adds an article object to the database
