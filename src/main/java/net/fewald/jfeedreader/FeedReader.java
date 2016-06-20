@@ -72,6 +72,10 @@ public class FeedReader implements Runnable {
 
             // Create a new article object and set the values
             Article article = new Article(entry.getTitle(), publishedDateTime);
+
+            // Copy over the feed name for later evaluation.
+            article.feedName = feed.name;
+
             if (article.getHeadlineOriginal() != null) {
                 String cleanedHeadline = headlineFormatter.getCleanString(article.getHeadlineOriginal());
                 article.setHeadline(cleanedHeadline);
