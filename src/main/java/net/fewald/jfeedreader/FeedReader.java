@@ -68,7 +68,14 @@ public class FeedReader implements Runnable {
 
         for (SyndEntry entry : syndFeed.getEntries ()) {
             // Convert the Date object to LocalDateTimeObject
-            LocalDateTime publishedDateTime = entry.getPublishedDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+            LocalDateTime publishedDateTime = null;
+            if (entry.getPublishedDate() != null) {
+                 publishedDateTime = entry.getPublishedDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+            }
+            else {
+                logger.severe("published data is missing, cannot add this entry to the list.");
+                continue;
+            }
 
             // Create a new article object and set the values
             Article article = new Article(entry.getTitle(), publishedDateTime);
