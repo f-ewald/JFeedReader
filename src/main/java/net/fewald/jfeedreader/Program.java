@@ -61,8 +61,6 @@ public class Program {
     private static DatabaseTypeEnum databaseType;
 
     public static void main(String[] args) {
-        Program p = new Program();
-        String t = p.getClass().getCanonicalName();
         // Initialize the logger
         final Logger log = Logger.getLogger("main");
         log.info("FeedReader started.");
