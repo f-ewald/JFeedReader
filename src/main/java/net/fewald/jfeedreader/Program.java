@@ -157,11 +157,9 @@ public class Program {
             System.exit(1);
         }
 
-        for (Feed feed : feedList) {
-            Timer timer = new Timer();
-            FeedTimerTask timerTask = new FeedTimerTask(feed, databaseConnector, stopWords);
-            // Run the task every five minutes.
-            timer.scheduleAtFixedRate(timerTask, 0, 1000 * 60 / 3);
-        }
+        Timer timer = new Timer();
+        FeedTimerTask timerTask = new FeedTimerTask(feedList, databaseConnector, stopWords);
+        // Run the task every five minutes.
+        timer.scheduleAtFixedRate(timerTask, 0, 1000 * 60 / 3);
     }
 }

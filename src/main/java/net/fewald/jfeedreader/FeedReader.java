@@ -12,6 +12,7 @@ import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.HashSet;
+import java.util.concurrent.Semaphore;
 import java.util.logging.Logger;
 
 /**
@@ -34,6 +35,8 @@ public class FeedReader implements Runnable {
      */
     public IDatabaseConnector database;
 
+    private Semaphore semaphore;
+
     private HashSet<String> stopWords;
 
     public FeedReader(Feed feed, IDatabaseConnector database) {
@@ -44,8 +47,9 @@ public class FeedReader implements Runnable {
         logger = Logger.getLogger("FeedReader");
     }
 
-    public FeedReader(Feed feed, IDatabaseConnector database, HashSet<String> stopWords) {
+    public FeedReader(Semaphore semaphore, Feed feed, IDatabaseConnector database, HashSet<String> stopWords) {
         this(feed, database);
+        this.semaphore = semaphore;
         this.stopWords = stopWords;
     }
 
@@ -140,6 +144,10 @@ public class FeedReader implements Runnable {
         } catch (ConnectionException e) {
             logger.severe(e.getMessage());
             e.printStackTrace();
+        }
+        finally {
+            // Release the semaphore
+            semaphore.release();
         }
     }
 }

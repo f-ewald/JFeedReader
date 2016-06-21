@@ -1,7 +1,9 @@
 package net.fewald.jfeedreader;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.TimerTask;
+import java.util.concurrent.Semaphore;
 import java.util.logging.Logger;
 
 /**
@@ -12,7 +14,7 @@ public class FeedTimerTask extends TimerTask  {
     /**
      * The feed to load
      */
-    private Feed feed;
+    private List<Feed> feedList;
 
     private HashSet<String> stopWords;
 
@@ -20,23 +22,26 @@ public class FeedTimerTask extends TimerTask  {
 
     private IDatabaseConnector database;
 
+    private Semaphore semaphore;
+
     /**
      * Basic constructor.
-     * @param feed The feed to fetch.
+     * @param feedList The feeds to fetch.
      */
-    public FeedTimerTask(Feed feed, IDatabaseConnector database) {
-        this.feed = feed;
+    public FeedTimerTask(List<Feed> feedList, IDatabaseConnector database) {
+        this.feedList = feedList;
         this.database = database;
         logger = Logger.getLogger("FeedTimerTask");
+        semaphore = new Semaphore(10);
     }
 
     /**
      * Constructor which accepts a feed and stop words.
-     * @param feed The feed to fetch.
+     * @param feedList The feed to fetch.
      * @param stopWords The stop words to apply.
      */
-    public FeedTimerTask(Feed feed, IDatabaseConnector database, HashSet<String> stopWords) {
-        this(feed, database);
+    public FeedTimerTask(List<Feed> feedList, IDatabaseConnector database, HashSet<String> stopWords) {
+        this(feedList, database);
         this.stopWords = stopWords;
     }
 
@@ -52,10 +57,17 @@ public class FeedTimerTask extends TimerTask  {
      * @see Thread#run()
      */
     public void run() {
-        logger.info(String.format("Fetching feed %1s", feed.name));
+        for (Feed feed : feedList) {
+            try {
+                semaphore.acquire();
+                logger.info(String.format("Fetching feed %1s", feed.name));
+                FeedReader feedReader = new FeedReader(semaphore, feed, database, stopWords);
+                Thread feedFetchThread = new Thread(feedReader);
+                feedFetchThread.start();
+            }
+            catch (InterruptedException exception) {
 
-        FeedReader feedReader = new FeedReader(feed, database, stopWords);
-        Thread feedFetchThread = new Thread(feedReader);
-        feedFetchThread.start();
+            }
+        }
     }
 }
