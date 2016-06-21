@@ -117,14 +117,11 @@ public class FeedReader implements Runnable {
         // Update the last update to now
         feed.lastUpdate = LocalDateTime.now();
 
-        database.open();
-
         // Remove all but the last element from the queue.
         while (feed.articles.size() > 0) {
             Article a = feed.articles.remove();
             database.addArticle(a);
         }
-        database.close();
 
         // Clean up the current articles
         feed.currentArticles = articleHeadlinesCurrentRunHashSet;

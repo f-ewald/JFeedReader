@@ -150,6 +150,14 @@ public class Program {
         }
 
         IDatabaseConnector databaseConnector = new MongoDatabaseConnector(configuration.mongoServer, configuration.mongoPort, configuration.mongoUser, configuration.mongoPassword, configuration.mongoDatabase);
+        try {
+            // Connect to the database
+            databaseConnector.open();
+        }
+        catch (ConnectionException exception) {
+            log.severe("Could not connect to database. Aborting.");
+            System.exit(1);
+        }
 
         for (Feed feed : feedList) {
             Timer timer = new Timer();
