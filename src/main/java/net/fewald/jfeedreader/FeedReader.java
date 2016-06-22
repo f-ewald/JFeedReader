@@ -99,7 +99,10 @@ public class FeedReader implements Runnable {
             // Try to build the url and write null otherwise after informing the user.
             URL url = null;
             try {
-                url = new URL(entry.getLink());
+                String link = entry.getLink();
+                if (link != null && link.length() > 0) {
+                    url = new URL(entry.getLink());
+                }
             }
             catch (MalformedURLException exception) {
                 logger.info("Could not format URL for article " + article.getHeadlineOriginal());
