@@ -66,7 +66,7 @@ public class FeedTimerTask extends TimerTask  {
                 feedFetchThread.start();
             }
             catch (InterruptedException exception) {
-
+                // We never interrupt the execution of this.
             }
         }
     }
