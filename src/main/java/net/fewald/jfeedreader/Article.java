@@ -105,16 +105,19 @@ public class Article {
     public Document getDocument() {
         // Use a DateTimeFormatter to convert the LocalDateTime objects to a mongo readable format.
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
-
         Document document = new Document();
         document.append("feedName", feedName);
         document.append("headline", headline);
         document.append("headlineOriginal", headlineOriginal);
-        document.append("publishedDateTime", publishedDateTime.format(dateTimeFormatter));
+        if (publishedDateTime != null) {
+            document.append("publishedDateTime", publishedDateTime.format(dateTimeFormatter));
+        }
         if (updatedDateTime != null) {
             document.append("updatedDateTime", updatedDateTime.format(dateTimeFormatter));
         }
-        document.append("url", url.toString());
+        if (url != null) {
+            document.append("url", url.toString());
+        }
         document.append("author", author);
         document.append("content", content);
         return document;
