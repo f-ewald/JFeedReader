@@ -1,4 +1,3 @@
-import junit.framework.TestSuite;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 
@@ -8,7 +7,8 @@ import org.junit.runners.Suite;
         HeadLineFormatterTest.class,
         MongoDatabaseTest.class,
         PsqlDatabaseTest.class,
-        ConfigurationManagerTest.class
+        ConfigurationManagerTest.class,
+        FeedReaderExceptionTest.class
 })
 
 /**
