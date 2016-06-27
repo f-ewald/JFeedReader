@@ -104,6 +104,7 @@ public class MongoDatabaseConnector implements IDatabaseConnector {
                     client = new MongoClient(serverAddress, credentialList);
                 }
                 db = client.getDatabase(database);
+                isOpen = true;
                 logger.info("Connected to MongoDB.");
             } catch (MongoSocketOpenException exception) {
                 throw new ConnectionException("Could not connect to MongoDB.");
@@ -117,6 +118,7 @@ public class MongoDatabaseConnector implements IDatabaseConnector {
     public synchronized void close() {
         if (client != null && --connectionCount == 0) {
             client.close();
+            isOpen = false;
             logger.info("Connection to MongoDB closed.");
         }
     }
