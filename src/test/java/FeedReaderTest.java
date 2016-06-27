@@ -8,7 +8,8 @@ import org.junit.runners.Suite;
         MongoDatabaseTest.class,
         PsqlDatabaseTest.class,
         ConfigurationManagerTest.class,
-        FeedReaderExceptionTest.class
+        FeedReaderExceptionTest.class,
+        ConnectionExceptionTest.class
 })
 
 /**
