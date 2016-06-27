@@ -20,11 +20,7 @@ public class Program {
 
     // TODO:
     /**
-     * Create program to resume and not double download articles
-     *
-     * Write default configuration
      * Check Database connector + unit tests
-     * Organize deploy
      * Improve class for Psql connector
      */
 
