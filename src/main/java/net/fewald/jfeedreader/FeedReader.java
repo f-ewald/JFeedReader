@@ -100,7 +100,7 @@ public class FeedReader implements Runnable {
             URL url = null;
             try {
                 String link = entry.getLink();
-                if (link != null && link.length() > 0) {
+                if (link != null && link.length() > 0 && link.startsWith("http:")) {
                     url = new URL(entry.getLink());
                 }
             }
