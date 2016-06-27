@@ -9,7 +9,8 @@ import org.junit.runners.Suite;
         PsqlDatabaseTest.class,
         ConfigurationManagerTest.class,
         FeedReaderExceptionTest.class,
-        ConnectionExceptionTest.class
+        ConnectionExceptionTest.class,
+        DatabaseTypeEnumTest.class
 })
 
 /**
