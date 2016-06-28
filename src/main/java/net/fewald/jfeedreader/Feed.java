@@ -2,10 +2,8 @@ package net.fewald.jfeedreader;
 
 import java.net.URL;
 import java.time.LocalDateTime;
-import java.util.ArrayDeque;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Queue;
 import java.util.logging.Logger;
 
 /**
@@ -29,11 +27,6 @@ public class Feed {
     public LocalDateTime lastUpdate;
 
     /**
-     * The entries of the feed.
-     */
-    public Queue<Article> articles;
-
-    /**
      * The current articles.
      * Used so that there is no article is fetched twice.
      */
@@ -48,7 +41,6 @@ public class Feed {
         this.name = name;
         this.url = url;
 
-        articles = new ArrayDeque<Article>();
         currentArticles = new HashSet<String>();
 
         Logger logger = Logger.getLogger("Feed");

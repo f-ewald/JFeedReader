@@ -32,7 +32,7 @@ public class FeedTimerTask extends TimerTask  {
         this.feedList = feedList;
         this.database = database;
         logger = Logger.getLogger("FeedTimerTask");
-        semaphore = new Semaphore(50);
+        semaphore = new Semaphore(10);
     }
 
     /**

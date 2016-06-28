@@ -11,7 +11,9 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.ArrayDeque;
 import java.util.HashSet;
+import java.util.Queue;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Logger;
 
@@ -54,6 +56,7 @@ public class FeedReader implements Runnable {
     }
 
     private void read() throws FeedReadException, ConnectionException {
+        Queue<Article> articles = new ArrayDeque<Article>();
         HashSet<String> articleHeadlinesCurrentRunHashSet = new HashSet<String>();
         SyndFeedInput input = new SyndFeedInput();
         SyndFeed syndFeed = null;
@@ -115,7 +118,7 @@ public class FeedReader implements Runnable {
             // be a duplicate.
             if (!feed.currentArticles.contains(article.getHeadline())) {
                 // Add the article to the queue, if it is not the latest one.
-                feed.articles.add(article);
+                articles.add(article);
             }
             // Add the headline to the current processed headlines.
             articleHeadlinesCurrentRunHashSet.add(article.getHeadline());
@@ -125,13 +128,16 @@ public class FeedReader implements Runnable {
         feed.lastUpdate = LocalDateTime.now();
 
         // Remove all but the last element from the queue.
-        while (feed.articles.size() > 0) {
-            Article a = feed.articles.remove();
+        while (articles.size() > 0) {
+            Article a = articles.remove();
             database.addArticle(a);
         }
 
         // Clean up the current articles
         feed.currentArticles = articleHeadlinesCurrentRunHashSet;
+
+        // Clear the temporary hash set
+        articleHeadlinesCurrentRunHashSet = null;
     }
 
     /**
