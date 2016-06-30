@@ -28,11 +28,11 @@ public class HeadLineFormatterTest extends TestCase {
 
     public void testHeadline3() {
         String result = headlineFormatter.getCleanString("and MyTestString or");
-        assertEquals(result, "myteststring");
+        assertEquals(result, "myteststr");
     }
 
     public void testHeadline4() {
         String result = headlineFormatter.getCleanString("and MyTestString number2 or");
-        assertEquals(result, "myteststring number2");
+        assertEquals(result, "myteststr number2");
     }
 }
