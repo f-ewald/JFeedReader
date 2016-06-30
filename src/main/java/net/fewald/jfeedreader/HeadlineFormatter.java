@@ -1,5 +1,8 @@
 package net.fewald.jfeedreader;
 
+import org.tartarus.snowball.SnowballStemmer;
+import org.tartarus.snowball.ext.englishStemmer;
+
 import java.util.Arrays;
 import java.util.HashSet;
 
@@ -50,11 +53,21 @@ public class HeadlineFormatter {
         // Split by whitespace
         String[] inputArray = preparedString.split(" ");
 
+        // Initialize the Snowball Stemmer
+        // http://snowball.tartarus.org
+        SnowballStemmer stemmer = new englishStemmer();
+
         // Loop over the String and add it to the output if it does not match any of the stopWords.
         for (String str : inputArray) {
             String tmp = str.toLowerCase().trim();
             // If the set does NOT contain the current word...
             if (!stopWords.contains(tmp)) {
+                stemmer.setCurrent(tmp);
+                if (stemmer.stem()) {
+                    // If it is possible to stem the word, do it.
+                    // Otherwise leave it as it is.
+                    tmp = stemmer.getCurrent();
+                }
                 result = String.format("%1s %2s", result, tmp).trim();
             }
         }
