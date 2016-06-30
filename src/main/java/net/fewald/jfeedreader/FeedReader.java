@@ -64,10 +64,10 @@ public class FeedReader implements Runnable {
             syndFeed = input.build(new XmlReader(this.feed.url));
         }
         catch (IOException exception) {
-            throw new FeedReadException("Error while loading feed.");
+            throw new FeedReadException(exception.getMessage());
         }
         catch (FeedException exception) {
-            throw new FeedReadException("Error while loading feed.");
+            throw new FeedReadException(exception.getMessage());
         }
 
         // Initialize headline formatter with stop words
