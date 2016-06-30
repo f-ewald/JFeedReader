@@ -43,7 +43,7 @@ public class Feed {
 
         currentArticles = new HashSet<String>();
 
-        Logger logger = Logger.getLogger("Feed");
+        Logger logger = Logger.getLogger(this.getClass().getName());
         String message = String.format("Created feed: %s", this.name);
         logger.info(message);
 
