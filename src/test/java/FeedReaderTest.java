@@ -10,7 +10,9 @@ import org.junit.runners.Suite;
         ConfigurationManagerTest.class,
         FeedReaderExceptionTest.class,
         ConnectionExceptionTest.class,
-        DatabaseTypeEnumTest.class
+        DatabaseTypeEnumTest.class,
+        ContentFormatterTest.class,
+        FeedTest.class
 })
 
 /**
