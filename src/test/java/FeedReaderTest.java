@@ -12,7 +12,8 @@ import org.junit.runners.Suite;
         ConnectionExceptionTest.class,
         DatabaseTypeEnumTest.class,
         ContentFormatterTest.class,
-        FeedTest.class
+        FeedTest.class,
+        ConfigurationTest.class
 })
 
 /**
