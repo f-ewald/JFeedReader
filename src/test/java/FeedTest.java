@@ -5,7 +5,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
- * Created by fe on 30.06.16.
+ * Unit test for Feed class.
  */
 public class FeedTest extends TestCase {
     public void testFeed1() {
