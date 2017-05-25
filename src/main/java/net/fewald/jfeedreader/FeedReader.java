@@ -61,7 +61,7 @@ public class FeedReader implements Runnable {
         SyndFeedInput input = new SyndFeedInput();
         SyndFeed syndFeed = null;
         try {
-            syndFeed = input.build(new XmlReader(this.feed.url));
+            syndFeed = input.build(new XmlReader(this.feed.getUrl()));
         }
         catch (IOException exception) {
             throw new FeedReadException(exception.getMessage());
@@ -88,7 +88,7 @@ public class FeedReader implements Runnable {
             Article article = new Article(entry.getTitle(), publishedDateTime);
 
             // Copy over the feed name for later evaluation.
-            article.feedName = feed.name;
+            article.feedName = feed.getName();
 
             if (article.getHeadlineOriginal() != null) {
                 String cleanedHeadline = headlineFormatter.getCleanString(article.getHeadlineOriginal());
@@ -116,7 +116,7 @@ public class FeedReader implements Runnable {
             // Check, if the article is in the current list of articles already.
             // If this is the case, don't add it to the database because this would
             // be a duplicate.
-            if (!feed.currentArticles.contains(article.getHeadline())) {
+            if (!feed.getCurrentArticles().contains(article.getHeadline())) {
                 // Add the article to the queue, if it is not the latest one.
                 articles.add(article);
             }
@@ -125,7 +125,7 @@ public class FeedReader implements Runnable {
         }
 
         // Update the last update to now
-        feed.lastUpdate = LocalDateTime.now();
+        feed.setLastUpdate(LocalDateTime.now());
 
         // Remove all but the last element from the queue.
         while (articles.size() > 0) {
@@ -134,7 +134,7 @@ public class FeedReader implements Runnable {
         }
 
         // Clean up the current articles
-        feed.currentArticles = articleHeadlinesCurrentRunHashSet;
+        feed.setCurrentArticles(articleHeadlinesCurrentRunHashSet);
 
         // Clear the temporary hash set
         articleHeadlinesCurrentRunHashSet = null;

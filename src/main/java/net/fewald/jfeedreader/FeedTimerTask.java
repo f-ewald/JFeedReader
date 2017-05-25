@@ -60,7 +60,7 @@ public class FeedTimerTask extends TimerTask  {
         for (Feed feed : feedList) {
             try {
                 semaphore.acquire();
-                logger.info(String.format("Fetching feed %1s", feed.name));
+                logger.info(String.format("Fetching feed %1s", feed.getName()));
                 FeedReader feedReader = new FeedReader(semaphore, feed, database, stopWords);
                 Thread feedFetchThread = new Thread(feedReader);
                 feedFetchThread.start();

@@ -18,8 +18,8 @@ public class FeedTest extends TestCase {
         }
         catch (MalformedURLException e) {}
         finally {
-            assertEquals(name, feed.name);
-            assertEquals(url, feed.url);
+            assertEquals(name, feed.getName());
+            assertEquals(url, feed.getUrl());
         }
     }
 }
