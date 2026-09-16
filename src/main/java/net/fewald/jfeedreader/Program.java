@@ -1,8 +1,10 @@
 package net.fewald.jfeedreader;
 
 import org.apache.commons.cli.*;
-import org.apache.commons.configuration.ConfigurationException;
-import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.configuration2.PropertiesConfiguration;
+import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
+import org.apache.commons.configuration2.builder.fluent.Parameters;
+import org.apache.commons.configuration2.ex.ConfigurationException;
 
 import java.io.File;
 import java.io.IOException;
@@ -105,7 +107,11 @@ public class Program {
                         // Currently we only support mongoDB server.
                         configuration = new Configuration();
                         File f = new File(configurationFilename);
-                        PropertiesConfiguration propertiesConfiguration = new PropertiesConfiguration(f);
+                        Parameters parameters = new Parameters();
+                        PropertiesConfiguration propertiesConfiguration =
+                            new FileBasedConfigurationBuilder<>(PropertiesConfiguration.class)
+                                .configure(parameters.properties().setFile(f))
+                                .getConfiguration();
                         configuration.mongoServer = propertiesConfiguration.getString("mongo.server");
                         configuration.mongoPort = propertiesConfiguration.getInt("mongo.port");
                         configuration.mongoDatabase = propertiesConfiguration.getString("mongo.database");
